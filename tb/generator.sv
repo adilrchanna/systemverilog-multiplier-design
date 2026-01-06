@@ -12,7 +12,7 @@ class generator #(parameter N=8);
         repeat(repeat_count) begin
         trans = new();
             
-	      // randomize check
+	    // randomize check
         if (!trans.randomize()) begin
             $fatal("[GEN] Transaction randomization failed!");
         end
