@@ -4,7 +4,7 @@
 ![Tools](https://img.shields.io/badge/Tools-QuestaSim%20%7C%20Quartus%20Prime-teal?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-## Project Overview
+## Overview
 
 This repository contains a parameterized implementation of integer multipliers in **SystemVerilog**. The project allows for the generation of multipliers of any bit-width (e.g., 8, 16, 32, 64-bit) by modifying a single parameter.
 
@@ -131,23 +131,13 @@ do run tree 16
 
 ## Verification Strategy
 
-The testbench follows a layered verification methodology:
+The design is verified using a Layered SystemVerilog Testbench.
 
 * **Generator:** Creates random `A` and `B` input transactions.
-* **Driver:** Drives signals onto the virtual interface, handling reset and enable.
-* **Monitor:** Observes input and output ports.
-* **Scoreboard:** Compares the DUT output against a golden reference model ().
+* **Driver:** Drives synchronous signals onto the virtual interface, handling reset and enable.
+* **Monitor:** Observes input and output ports across clock cycles.
+* **Scoreboard:** Compares the DUT output against a golden reference model.
 
-* **Transaction:** Defines the atomic payload with randomized input vectors (`rand A`, `rand B`).
-* **Driver:** Drives synchronous signals and injects **random noise** (invalid data with `enable` low) to verify input stability.
-* **Monitor:** Uses multi-threading to correctly track **pipelined transactions**, matching inputs to outputs across clock cycles.
-* **Scoreboard:** Self-checking "Golden Reference" that compares the DUT output against a behavioral model ($P = A \times B$).  
-
-
-
-## Verification Strategy
-
-The design is verified using a Layered SystemVerilog Testbench.
 
 ### Testbench Architecture
 The environment is built dynamically using UVM-style component classes connected via mailboxes.
@@ -193,21 +183,11 @@ classDiagram
     direction LR
 ```
 
-### Why this is better:
-1.  **"Pipeline Awareness":** This is a key feature. Standard monitors often fail with pipelined designs because they block. Your use of `fork...join_none`  is a specific, advanced technique worth highlighting.
-2.  **"Noise Injection":** You aren't just driving good data; you are explicitly testing the `ea`/`eb` logic by toggling it off randomly[cite: 34]. This proves robustness.
-3.  **Synchronization:** Explicitly mentioning the termination logic  shows you handled t
+## Author & License
 
-
-## Author
-
-**Adil R. Channa**
+**Adil Rafiq**
 
 * **GitHub:** [adilrchanna](https://github.com/adilrchanna)
-* **Project:** SystemVerilog Multiplier Design
+* **Project:** Design and Verification of Multipliers in SystemVerilog
 
----
-
-### License
-
-This project is licensed under the MIT License - see the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
+This project is licensed under the [MIT License](LICENSE)
